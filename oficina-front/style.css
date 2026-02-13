@@ -1,0 +1,200 @@
+ body { font-family: 'Inter', sans-serif; background-color: #f0f2f5; color: #334155; }
+        
+        /* Navbar Moderna */
+        .navbar { background: #1e293b !important; padding: 15px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .navbar-brand { font-size: 1.5rem; letter-spacing: -1px; }
+        .nav-link.btn { 
+            color: white !important; font-weight: 600; margin-left: 10px; 
+            border-radius: 8px; padding: 10px 20px; font-size: 0.8rem;
+            text-transform: uppercase; transition: all 0.2s; border: none;
+        }
+        .btn-new-client { background: #3b82f6; }
+        .btn-new-veiculo { background: #6366f1; }
+        .btn-new-os { background: #10b981; }
+        .nav-link.btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+        /* Dashboard Stats */
+        .dash-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card-stat { 
+            background: white; border-radius: 12px; padding: 20px; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); display: flex; align-items: center;
+            border-left: 5px solid #3b82f6;
+        }
+        .card-stat.orcamento { border-left-color: #f59e0b; }
+        .stat-icon { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-right: 15px; }
+
+        /* Placa Mercosul */
+        .placa-box { 
+            border: 2px solid #000; border-radius: 6px; display: inline-block; 
+            background: white; overflow: hidden; min-width: 100px;
+        }
+        .placa-head { background: #003399; color: white; font-size: 8px; text-align: center; padding: 2px; font-weight: bold; }
+        .placa-num { font-family: 'Courier New', monospace; font-weight: 900; padding: 2px 8px; font-size: 1rem; text-align: center; }
+
+        /* Badges e Status */
+        .badge-status { border-radius: 6px; padding: 6px 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+        .status-orcamento { background: #fef3c7; color: #92400e; }
+        .status-servico { background: #dbeafe; color: #1e40af; }
+        .badge-pagamento { font-size: 0.65rem; padding: 4px 8px; border-radius: 4px; font-weight: 800; }
+        .pag-pendente { background: #fee2e2; color: #991b1b; }
+        .pag-pago { background: #dcfce7; color: #166534; }
+
+        .table-container { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        .modal-content { border-radius: 15px; border: none; }
+        .modal-header { border-top-left-radius: 15px; border-top-right-radius: 15px; }
+
+        #sidebar-wrapper {
+    min-height: 100vh;
+    width: 260px;
+    margin-left: -260px;
+    transition: margin 0.25s ease-out;
+    background-color: #1e293b !important; /* Azul Escuro Profissional */
+}
+
+#sidebar-wrapper .sidebar-heading {
+    color: #3b82f6;
+}
+
+#sidebar-wrapper .list-group-item {
+    padding: 18px 30px;
+    border: none;
+    font-weight: 500;
+}
+
+#sidebar-wrapper .list-group-item.active {
+    color: #3b82f6 !important;
+    background: rgba(59, 130, 246, 0.1) !important;
+    border-left: 4px solid #3b82f6;
+}
+
+#page-content-wrapper {
+    width: 100%;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -260px;
+    }
+}
+
+
+
+
+
+
+/* 1. Fixar a Sidebar na esquerda */
+#sidebar-wrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 250px; /* Largura da sua barra lateral */
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+/* 2. Fixar a Navbar no topo (mas empurrá-la para a direita da sidebar) */
+.navbar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 250px; /* Deve ser a mesma largura da sidebar */
+    z-index: 999;
+    height: 70px; /* Altura padrão da sua barra de botões */
+}
+
+
+#page-content-wrapper {
+    padding-left: 250px; /* Abre espaço para a Sidebar na esquerda */
+    padding-top: 85px;  /* Abre espaço para a Navbar no topo */
+    width: 100%;
+}
+
+/* Ajuste para dispositivos móveis (opcional) */
+@media (max-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: -250px; /* Esconde a sidebar em telas pequenas */
+    }
+    #page-content-wrapper {
+        padding-left: 0;
+    }
+    .navbar {
+        left: 0;
+    }
+}
+
+
+/* Remove o título da barra lateral */
+#sidebar-wrapper .sidebar-heading {
+    display: none !important;
+}
+
+/* Opcional: Ajusta o espaçamento que sobrou no topo */
+#sidebar-wrapper .list-group {
+    margin-top: 20px; 
+}
+
+
+
+/* Garante que todos os links da sidebar fiquem brancos */
+#sidebar-wrapper .list-group-item {
+    color: rgba(255, 255, 255, 0.9) !important; /* Branco quase puro */
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* Efeito quando passar o mouse */
+#sidebar-wrapper .list-group-item:hover {
+    color: #ffffff !important; /* Branco total no hover */
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Estilo para o item que estiver selecionado (ativo) */
+#sidebar-wrapper .list-group-item.active {
+    color: #ffffff !important;
+    background-color: rgba(59, 130, 246, 0.2) !important; /* Um leve fundo azulado para destacar */
+    border-left: 4px solid #3b82f6 !important; /* Barrinha lateral azul */
+    font-weight: 600;
+}
+
+/* Ajuste específico para os ícones acompanharem a cor */
+#sidebar-wrapper .list-group-item i {
+    color: rgba(255, 255, 255, 0.7);
+    margin-right: 10px;
+}
+
+#sidebar-wrapper .list-group-item:hover i,
+#sidebar-wrapper .list-group-item.active i {
+    color: #ffffff;
+}
+
+/* Remove o fundo azul claro do item ativo */
+#sidebar-wrapper .list-group-item.active {
+    background-color: transparent !important; /* Remove o fundo */
+    color: #ffffff !important;                /* Garante o branco puro */
+    border: none !important;                  /* Remove bordas indesejadas */
+    font-weight: 500;                         /* Mantém o peso igual aos outros */
+}
+
+/* Garante que todos os itens fiquem brancos por padrão */
+#sidebar-wrapper .list-group-item {
+    color: #ffffff !important; 
+    background-color: transparent !important;
+    border: none !important;
+    padding: 15px 25px;
+    opacity: 0.8; /* Leve transparência para um visual moderno */
+    transition: opacity 0.2s;
+}
+
+/* Destaque apenas quando passar o mouse */
+#sidebar-wrapper .list-group-item:hover {
+    opacity: 1; /* Fica 100% branco no hover */
+    background-color: rgba(255, 255, 255, 0.1) !important; /* Brilho suave no fundo */
+}

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoManager Pro | Ordens de Serviço</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        #wrapper { display: flex; width: 100%; }
+        #sidebar-wrapper { min-height: 100vh; width: 260px; background-color: #1e293b; transition: margin 0.25s; }
+        #sidebar-wrapper .list-group-item { padding: 18px 30px; border: none; color: #cbd5e1; background: transparent; }
+        #sidebar-wrapper .list-group-item.active { color: #3b82f6; background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3b82f6; }
+        #page-content-wrapper { width: 100%; }
+
+        /* Status Badges Customizados */
+        .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-uppercase: uppercase; }
+        .status-orcamento { background: #fef3c7; color: #d97706; }
+        .status-servico { background: #dcfce7; color: #166534; }
+        .pag-pendente { background: #fee2e2; color: #991b1b; }
+        .pag-pago { background: #e0e7ff; color: #3730a3; }
+        
+        .card-os { border: none; transition: 0.3s; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card-os:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+          /* Container dos botões de filtro */
+.filter-group {
+    background: #f1f5f9;
+    padding: 5px;
+    border-radius: 12px;
+    display: inline-flex;
+    gap: 5px;
+}
+
+/* Botão de Filtro Base */
+.btn-filter {
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+    background: transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Estados Ativos com Cores de Oficina */
+.btn-filter.active[data-type="todos"] {
+    background: #1e293b;
+    color: white;
+    box-shadow: 0 4px 12px rgba(30, 41, 59, 0.2);
+}
+
+.btn-filter.active[data-type="orcamento"] {
+    background: #f59e0b; /* Amarelo Alerta */
+    color: white;
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-filter.active[data-type="servico"] {
+    background: #10b981; /* Verde Execução */
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-filter:hover:not(.active) {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+/* Botão de Ação (Novo Serviço / Nova O.S) */
+.btn-new-os {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    transition: transform 0.2s;
+}
+
+.btn-new-os:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+    color: white;
+}
+
+  </style>
+</head>
+<body>
+
+<div class="d-flex" id="wrapper">
+    <div class="bg-dark text-white" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center py-4 fs-4 fw-bold border-bottom text-primary">
+            <i class="fas fa-car-wrench me-2"></i>Aracaju Auto Center
+        </div>
+        <div class="list-group list-group-flush my-3">
+            <a href="index.html" class="list-group-item list-group-item-action"><i class="fas fa-chart-line me-2"></i>Dashboard</a>
+            <a href="clientes.html" class="list-group-item list-group-item-action"><i class="fas fa-users me-2"></i>Clientes</a>
+            <a href="veiculos.html" class="list-group-item list-group-item-action"><i class="fas fa-car me-2"></i>Veículos</a>
+            <a href="servicos.html" class="list-group-item list-group-item-action active"><i class="fas fa-file-invoice-dollar me-2"></i>O.S.</a>
+        </div>
+    </div>
+
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-light bg-white py-3 px-4 border-bottom shadow-sm">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle" style="cursor:pointer"></i>
+                <h4 class="m-0 fw-bold">Gerenciamento de O.S.</h4>
+            </div>
+        </nav>
+
+        <div class="container-fluid px-4 py-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+           
+                <div class="filter-group">
+                      <button class="btn-filter active" data-type="todos" onclick="filtrarPor('TODOS', this)">
+                      <i class="fas fa-list"></i> Todos
+                </button>
+                <button class="btn-filter" data-type="orcamento" onclick="filtrarPor('ORCAMENTO', this)">
+                     <i class="fas fa-file-invoice"></i> Orçamentos
+                </button>
+                 <button class="btn-filter" data-type="servico" onclick="filtrarPor('SERVICO', this)">
+                  <i class="fas fa-tools"></i> Em Serviço
+                </button>
+              </div>             
+             </div>
+            </div>
+
+           <div class="row mb-3">
+            <div class="col-md-4">
+              <div class="input-group">
+            <span class="input-group-text bg-white border-end-0"><i class="fas fa-search text-muted"></i></span>
+            <input type="text" class="form-control border-start-0" placeholder="Buscar por cliente ou placa..." 
+                   onkeyup="buscarTexto(this.value)">
+              </div>
+            </div>
+          </div>
+            <div class="card card-os">     
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light text-muted small text-uppercase">
+                            <tr>
+                                <th class="ps-4">ID / Tipo</th>
+                                <th>Cliente / Veículo</th>
+                                <th>Datas</th>
+                                <th>Status / Pagamento</th>
+                                <th>Valor Total</th>
+                                <th class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaServicos">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modalEditarServico" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold"><i class="fas fa-edit me-2"></i>Atualizar O.S.</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarServico">
+                    <input type="hidden" id="editServicoId">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Tipo de Serviço</label>
+                            <input type="text" class="form-control" id="editTipoServico" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Valor (R$)</label>
+                            <input type="number" step="0.01" class="form-control" id="editValorServico" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Data de Entrada</label>
+                            <input type="date" class="form-control" id="editDataEntrada" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Previsão de Saída</label>
+                            <input type="date" class="form-control" id="editDataSaida">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Status do Serviço</label>
+                            <select class="form-select" id="editStatusServico">
+                                <option value="ORCAMENTO">ORÇAMENTO</option>
+                                <option value="SERVICO">SERVICOS</option>                              
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold">Status do Pagamento</label>
+                            <select class="form-select" id="editStatusPagamento">
+                                <option value="PENDENTE">PENDENTE</option>
+                                <option value="PAGO">PAGO</option>
+                               
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold">Descrição / Laudo Técnico</label>
+                            <textarea class="form-control" id="editDescricaoServico" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary flex-grow-1 fw-bold">SALVAR ALTERAÇÕES</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">CANCELAR</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalVisualizarOS" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content border-0 shadow-lg">
+            <div class="modal-header bg-dark text-white border-0">
+                <h5 class="modal-title fw-bold"><i class="fas fa-eye me-2 text-primary"></i>Detalhes da Ordem de Serviço</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body p-4" id="conteudoVisualizacao">
+                </div>
+
+            <div class="modal-footer bg-light border-0">
+                <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary px-4" onclick="window.print()">
+                    <i class="fas fa-print me-2"></i>Imprimir O.S.
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="servicos.js"></script>
+</body>
+</html>

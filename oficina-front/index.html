@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoManager Pro | Gestão de Oficina</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+   <div class="d-flex" id="wrapper">
+    
+    <div class="bg-dark text-white" id="sidebar-wrapper">
+        <div class="sidebar-heading text-center py-4 fs-4 fw-bold text-uppercase border-bottom">
+            <i class="fas fa-car-wrench me-2"></i>AutoManager
+        </div>
+        <div class="list-group list-group-flush my-3">
+            <a href="index.html" class="list-group-item list-group-item-action bg-transparent text-white active">
+                <i class="fas fa-chart-line me-2"></i>Dashboard
+            </a>
+            <a href="./clientes.html" class="list-group-item list-group-item-action bg-transparent text-white">
+                <i class="fas fa-users me-2"></i>Clientes
+            </a>
+            <a href="./veiculos.html" class="list-group-item list-group-item-action bg-transparent text-white">
+                <i class="fas fa-car me-2"></i>Veículos
+            </a>
+            <a href="./servicos.html" class="list-group-item list-group-item-action bg-transparent text-white">
+                <i class="fas fa-file-invoice-dollar me-2"></i>Ordens de Serviço
+            </a>
+           
+        </div>
+    </div>
+
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light py-3 px-4 border-bottom">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-bars fs-4 me-3" id="menu-toggle" style="cursor:pointer;"></i>
+                <h4 class="m-0 fw-bold">Gestão de Oficina</h4>
+            </div>
+        </nav>
+        
+        <div class="container-fluid px-4 py-3">
+             </div>
+
+
+          <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#"><i class="fas fa-screwdriver-wrench me-2 text-info"></i>Aracaju <span class="text-info">Auto Center</span></a>
+        <div class="d-flex ms-auto">
+            <button class="nav-link btn btn-new-client" data-bs-toggle="modal" data-bs-target="#modalCliente"><i class="fas fa-user-plus me-1"></i> Cliente</button>
+            <button class="nav-link btn btn-new-veiculo" data-bs-toggle="modal" data-bs-target="#modalVeiculo"><i class="fas fa-car me-1"></i> Veículo</button>
+            <button class="nav-link btn btn-new-os" data-bs-toggle="modal" data-bs-target="#modalServico"><i class="fas fa-file-circle-plus me-1"></i> Nova O.S.</button>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="dash-row">
+        <div class="card-stat orcamento">
+            <div class="stat-icon bg-warning bg-opacity-10 text-warning"><i class="fas fa-clock-rotate-left"></i></div>
+            <div><small class="text-muted fw-bold d-block">EM ORÇAMENTO</small><h3 class="mb-0 fw-bold" id="dashOrc">0</h3></div>
+        </div>
+        <div class="card-stat">
+            <div class="stat-icon bg-primary bg-opacity-10 text-primary"><i class="fas fa-screwdriver-wrench"></i></div>
+            <div><small class="text-muted fw-bold d-block">EM EXECUÇÃO</small><h3 class="mb-0 fw-bold" id="dashServ">0</h3></div>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="fw-bold m-0"><i class="fas fa-list-check me-2 text-primary"></i>Monitor de Serviços</h5>
+            <button class="btn btn-sm btn-outline-secondary" onclick="carregarServicosTabela()"><i class="fas fa-sync"></i> Atualizar</button>
+        </div>
+ 
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr class="small text-uppercase">
+                        <th>O.S / ID</th>
+                        <th>Cliente / Veículo</th>
+                        <th>Placa</th>
+                        <th>Datas (E/S)</th>
+                        <th>Servico / Pagamento</th>
+                        <th>Valor</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaCorpo">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalCliente" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title fw-bold"><i class="fas fa-user-plus me-2"></i>Novo Cliente</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="formCliente">
+                    <div class="mb-3"><label class="form-label fw-bold small">Nome Completo</label><div class="input-group"><span class="input-group-text"><i class="fas fa-user"></i></span><input type="text" class="form-control" name="nome" placeholder="Nome do cliente" required></div></div>
+                    <div class="mb-3"><label class="form-label fw-bold small">Telefone</label><div class="input-group"><span class="input-group-text"><i class="fas fa-phone"></i></span><input type="text" class="form-control" name="telefone" placeholder="(00) 00000-0000" required></div></div>
+                    <div class="mb-4"><label class="form-label fw-bold small">E-mail</label><div class="input-group"><span class="input-group-text"><i class="fas fa-envelope"></i></span><input type="email" class="form-control" name="email" placeholder="cliente@email.com"></div></div>
+                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2">CADASTRAR CLIENTE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalVeiculo" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-indigo text-white" style="background: #6366f1;">
+                <h5 class="modal-title fw-bold"><i class="fas fa-car me-2"></i>Vincular Veículo</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="formVeiculo">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold small">Proprietário</label>
+                        <select class="form-select select-clientes" name="clienteId" required></select>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-bold small">Marca</label>
+                            <select class="form-select" name="marca">
+                                <option value="GM">CHEVROLET (GM)</option><option value="FORD">FORD</option>
+                                <option value="VOLKSWAGEN">VOLKSWAGEN</option><option value="FIAT">FIAT</option>
+                                <option value="HYUNDAI">HYUNDAI</option><option value="TOYOTA">TOYOTA</option>
+                            </select>
+                        </div>
+                        <div class="col-6 mb-3"><label class="form-label fw-bold small">Modelo</label><input type="text" class="form-control" name="modelo" required></div>
+                        <div class="col-6 mb-3"><label class="form-label fw-bold small">Ano</label><input type="number" class="form-control" name="anoModelo" value="2024"></div>
+                        <div class="col-6 mb-3"><label class="form-label fw-bold small">Placa</label><input type="text" class="form-control text-uppercase placa-input" name="placa" maxlength="7" required></div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-bold small">Seguro</label>
+                            <select class="form-select" name="seguro">
+                                <option value="NAO">PARTICULAR</option><option value="MAPFRE">MAPFRE</option>
+                                <option value="PORTO">PORTO SEGURO</option><option value="AZUL">AZUL</option>
+                                <option value="TOKIO">TOKIO MARINE</option>
+                            </select>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label fw-bold small">Vistoria</label>
+                            <select class="form-select" name="vistoria">
+                                <option value="PENDENTE">NÃO REALIZADA</option><option value="REALIZADA">REALIZADA</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-indigo w-100 fw-bold py-2 text-white" style="background: #6366f1;">SALVAR VEÍCULO</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalServico" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title fw-bold"><i class="fas fa-file-invoice-dollar me-2"></i>Gerar O.S.</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="formServico">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-primary">1. Selecione o Cliente</label>
+                            <select class="form-select select-clientes" id="selCliOS" name="clienteId" required onchange="carregarVeiculosDoCliente(this.value)"></select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-primary">2. Selecione o Veículo</label>
+                            <select class="form-select" id="selVeiculoOS" name="veiculoId" required>
+                                <option value="">Aguardando cliente...</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4"><label class="form-label fw-bold small">Data Entrada</label><input type="date" class="form-control" name="dataEntrada" id="dataAtual"></div>
+                        <div class="col-md-4"><label class="form-label fw-bold small">Previsão Saída</label><input type="date" class="form-control" name="dataSaida"></div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold small">Tipo</label>
+                            <select class="form-select" name="tipoServico">
+                                <option value="ALINHAMENTO">ALINHAMENTO</option><option value="BALANCEAMENTO">BALANCEAMENTO</option>
+                                 <option value="CHAPARIA">CHAPARIA</option><option value="SUSPENSAO">SUSPENSAO</option>
+                                <option value="ELETRICA">ELÉTRICA</option><option value="MOTOR">MOTOR</option>
+                                <option value="OUTROS">OUTROS</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold small">Status O.S.</label>
+                            <select class="form-select" name="statusServico">
+                                <option value="ORCAMENTO">ORÇAMENTO</option><option value="SERVICO">EM SERVIÇO</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4"><label class="form-label fw-bold small">Valor (R$)</label><input type="number" step="0.01" class="form-control" name="valor"></div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-bold small">Financeiro</label>
+                            <select class="form-select" name="statusPagamento">
+                                <option value="PENDENTE">PENDENTE</option><option value="PAGO">PAGO</option>
+                            </select>
+                        </div>
+                        <div class="col-12"><label class="form-label fw-bold small">Descrição dos Serviços</label><textarea class="form-control" name="descricao" rows="3" placeholder="Detalhes do que será feito..."></textarea></div>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100 fw-bold mt-4 py-2">GERAR ORDEM DE SERVIÇO</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDetalhesServico" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title fw-bold"><i class="fas fa-eye me-2"></i>Consulta de O.S.</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-0" id="conteudoDetalhes">
+                </div>
+            <div class="modal-footer bg-light">
+                <button class="btn btn-outline-dark fw-bold" onclick="window.print()"><i class="fas fa-print me-2"></i>IMPRIMIR</button>
+                <button class="btn btn-secondary fw-bold" data-bs-dismiss="modal">FECHAR</button>
+            </div>
+        </div>
+    </div>
+</div>   
+    </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
