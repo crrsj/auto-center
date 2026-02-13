@@ -40,8 +40,7 @@ Java 21 & Virtual Threads: A aplicação foi pensada para ser leve. O uso de Vir
 
 UX Focalizado: O design foi projetado para o "chão de oficina", priorizando informações de leitura rápida como Placa do Veículo e Valor do Serviço.
 
-🏗️ Como Executar o Projeto
-Pré-requisitos:
+🏗️ Pré-requisitos:
 
 JDK 21 instalado.
 
