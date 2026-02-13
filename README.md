@@ -47,18 +47,6 @@ JDK 21 instalado.
 
 Maven instalado.
 
-Clone o repositório:
-
-Bash
-git clone https://github.com/seu-usuario/aracaju-auto-center.git
-Execute o Back-end:
-
-Bash
-cd aracaju-auto-center-backend
-mvn spring-boot:run
-Execute o Front-end:
-Basta abrir o arquivo index.html no seu navegador ou utilizar a extensão Live Server no VS Code.
-⚠️ Status do Projeto
 Status: Em desenvolvimento (Versão Funcional) 🚀
 O Aracaju Auto Center já é uma aplicação totalmente funcional, permitindo o fluxo completo de gestão de Ordens de Serviço. O projeto está em fase de evolução contínua, onde novos módulos estão sendo implementados para tornar a experiência ainda mais completa.
 
