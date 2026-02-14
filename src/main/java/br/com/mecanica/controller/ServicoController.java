@@ -43,7 +43,7 @@ public class ServicoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ServicoDTO>atualizarServico(@PathVariable Long id,@RequestBody ServicoDTO servicoDTO){
+    public ResponseEntity<ServicoDTO>atualizarServico(@PathVariable Long id,@RequestBody @Valid ServicoDTO servicoDTO){
         return ResponseEntity.ok(servicoService.atualizarServico(id,servicoDTO));
     }
 

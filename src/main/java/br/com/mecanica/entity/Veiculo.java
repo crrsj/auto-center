@@ -5,6 +5,8 @@ import br.com.mecanica.enums.Seguro;
 import br.com.mecanica.enums.Vistoria;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class Veiculo {
     private Marca marca;
     private String modelo;
     private int anoModelo;
+    @Column(unique = true, nullable = false, length = 7)
     private String placa;
     @Enumerated(EnumType.STRING)
     private Seguro seguro;
@@ -33,6 +36,5 @@ public class Veiculo {
     @JsonIgnore
     private  Cliente cliente;
     @OneToMany(mappedBy = "veiculo")
-    @JsonIgnore
     private List<Servico>servicos = new ArrayList<>();
 }

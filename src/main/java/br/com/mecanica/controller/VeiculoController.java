@@ -44,7 +44,7 @@ public class VeiculoController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<VeiculoDTO>atualizarVeiculo(@PathVariable Long id,@RequestBody VeiculoDTO veiculoDTO){
+    public ResponseEntity<VeiculoDTO>atualizarVeiculo(@PathVariable Long id,@RequestBody @Valid VeiculoDTO veiculoDTO){
         return ResponseEntity.ok(veiculoService.atualizarVeiculo(id, veiculoDTO));
     }
 

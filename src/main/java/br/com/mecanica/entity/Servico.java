@@ -22,6 +22,7 @@ public class Servico {
     private LocalDate dataEntrada;
     @Enumerated(EnumType.STRING)
     private TipoServico tipoServico;
+    @Column(columnDefinition = "TEXT")
     private String descricao;
     @Enumerated(EnumType.STRING)
     private StatusServico statusServico;
@@ -35,5 +36,6 @@ public class Servico {
     private Cliente cliente;
     @ManyToOne
     @JoinColumn(name = "veiculo_id")
+    @JsonIgnore
     private Veiculo veiculo;
 }

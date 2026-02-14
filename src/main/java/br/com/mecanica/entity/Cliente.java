@@ -1,6 +1,7 @@
 package br.com.mecanica.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 
 import java.util.ArrayList;
